@@ -47,7 +47,6 @@ while i<ourGraph.m:
         j+=1
     i+=1
 
-print(function)
 print(function.to_dnf())
 
 print("Внешняя устойчивость. Построим ДНФ:")
@@ -101,6 +100,5 @@ while i<ourGraph.m:
     i+=1
 
 
-print(function)
 print(function.to_dnf())
 
