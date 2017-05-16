@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import model
 
-fname = "task1.txt"
+fname = "task1/task.txt"
 ourGraph = model.Graph(fname)
-ourGraph.makeReflexive()
 ourGraph.makeTransitive()
 print(ourGraph.data)
-print(ourGraph.checkAntisymmetric())

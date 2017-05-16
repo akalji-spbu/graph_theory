@@ -62,8 +62,6 @@ class Graph():
         nsum = core.normalise(sum)
         ndata = core.normalise(self.data)
 
-        print("ndata",ndata)
-
         return numpy.allclose(nsum, ndata)
 
     def makeReflexive(self):
@@ -102,12 +100,57 @@ class Graph():
     def makeTransitive(self):
         tc = floyd_warshall(self.data)
         i=0
+        adds=0
         while i<self.m:
             j = 0
             while j < self.n:
                 if tc[i][j]==float("inf"):
                     self.data[i][j]=0
                 else:
+                    if self.data[i][j]==0:
+                        adds = adds + 1
                     self.data[i][j] = 1
                 j=j+1
             i=i+1
+        return adds
+
+    def makeSymmetric(self):
+        i = 0
+        adds = 0
+        while i < self.m:
+            j=0
+            while j< self.n:
+                if self.data[i][j]==1:
+                    self.data[j][i] = 1
+                    adds = adds+1
+                j=j+1
+            i=i+1
+
+        variants = 1
+        i=0
+        while i < self.m:
+            j = i+1
+            while j < self.n:
+                if self.data[i][j]==0:
+                    print(i,j)
+                    variants+=1
+                j+=1
+            i+=1
+        return adds, variants
+
+    def makeLinearOrder(self):
+        variants = 1
+        i = 0
+        while i < self.m:
+            j = i+1
+            print("Варианты добавления вершин до линейного порядка:")
+            while j < self.n:
+                if (self.data[i][j]+self.data[j][i]==0 and i!=j):
+                    self.data[i][j] = 1
+                    variants=variants*3
+                    print(i,j)
+                    print(j,i)
+                    print()
+                j+=1
+            i+=1
+        return variants
