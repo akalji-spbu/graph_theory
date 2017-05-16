@@ -13,6 +13,7 @@ class Graph():
         self.data = numpy.genfromtxt(fname,delimiter=" ")
         self.m, self.n = self.data.shape
 
+
     def checkRelations(self):
         result = {
             "Рефлексивность": self.checkReflexive(),
@@ -98,16 +99,27 @@ class Graph():
     #     print(s)
 
     def makeTransitive(self):
+        i = 0
+        while i< self.m:
+            j=0
+            while j< self.n:
+                if self.data[i][j]==0:
+                    self.data[i][j]=float("inf")
+                j+=1
+            i+=1
+
         tc = floyd_warshall(self.data)
+
         i=0
         adds=0
+
         while i<self.m:
             j = 0
             while j < self.n:
                 if tc[i][j]==float("inf"):
                     self.data[i][j]=0
                 else:
-                    if self.data[i][j]==0:
+                    if self.data[i][j]==float("inf"):
                         adds = adds + 1
                     self.data[i][j] = 1
                 j=j+1
@@ -121,8 +133,9 @@ class Graph():
             j=0
             while j< self.n:
                 if self.data[i][j]==1:
-                    self.data[j][i] = 1
-                    adds = adds+1
+                    if self.data[j][i] == 0:
+                        self.data[j][i] = 1
+                        adds = adds+1
                 j=j+1
             i=i+1
 
